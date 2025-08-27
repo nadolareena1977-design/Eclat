@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Èclat">
+    <meta name="theme-color" content="#051a0f">
+    <meta name="msapplication-TileColor" content="#051a0f">
+    <title>Èclat - Premium Coffee Experience</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Premium coffee mugs by Èclat - Luxury ceramic mugs with gold and silver accents. Handcrafted elegance for your daily coffee ritual.">
+    <meta name="keywords" content="coffee mugs, luxury mugs, ceramic mugs, gold coffee mugs, silver coffee mugs, premium coffee experience">
+    <meta name="author" content="Èclat">
+    
+    <!-- Open Graph Meta Tags for Social Media -->
+    <meta property="og:title" content="Èclat - Premium Coffee Experience">
+    <meta property="og:description" content="Luxury coffee mugs crafted with passion. Every sip, Èclat.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://eclat-coffee.com">
+    <meta property="og:image" content="product_images/eclat_box.PNG">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Èclat - Premium Coffee Experience">
+    <meta name="twitter:description" content="Luxury coffee mugs crafted with passion. Every sip, Èclat.">
+    <meta name="twitter:image" content="product_images/eclat_box.PNG">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="product_images/eclat_box.PNG">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <h1>Èclat</h1>
+            </div>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#product">Product</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="nav-cart">
+                <button class="cart-btn" id="cartBtn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-background-overlay"></div>
+            <div class="hero-content">
+                <div class="hero-text-wrapper">
+                    <h1 class="hero-title">
+                        <span class="title-line">Every Sip, Èclat</span>
+                    </h1>
+                </div>
+                <div class="hero-cta-wrapper">
+                    <a href="#product" class="cta-button">
+                        <span class="cta-text">Shop Now</span>
+                        <span class="cta-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+            <div class="scroll-indicator" onclick="scrollToProducts()">
+                <i class="fas fa-chevron-down"></i>
+                <span>Scroll to explore</span>
+            </div>
+        </section>
+
+        <section id="product" class="product-section">
+            <div class="container">
+                <h2 class="section-title">Our Premium Collection</h2>
+                <div class="product-grid">
+                    <div class="product-card featured">
+                        <div class="product-image">
+                            <div class="image-carousel" id="goldCarousel">
+                                <img src="product_images/gold_eclat.PNG" alt="Gold Eclat Coffee Mug" class="carousel-image active" onclick="openImageViewer('gold', 0)">
+                                <img src="product_images/gold_cafe.PNG" alt="Gold Eclat in Cafe Setting" class="carousel-image" onclick="openImageViewer('gold', 1)">
+                                <img src="product_images/gold_house.PNG" alt="Gold Eclat in Home Setting" class="carousel-image" onclick="openImageViewer('gold', 2)">
+                                <img src="product_images/gold_workspace.PNG" alt="Gold Eclat in Workspace" class="carousel-image" onclick="openImageViewer('gold', 3)">
+                                <img src="product_images/gold_nature.PNG" alt="Gold Eclat in Nature Setting" class="carousel-image" onclick="openImageViewer('gold', 4)">
+                            </div>
+
+                            <button class="carousel-btn prev-btn" onclick="changeImage('gold', -1)">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="carousel-btn next-btn" onclick="changeImage('gold', 1)">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                            <div class="carousel-dots">
+                                <span class="dot active" onclick="goToImage('gold', 0)"></span>
+                                <span class="dot" onclick="goToImage('gold', 1)"></span>
+                                <span class="dot" onclick="goToImage('gold', 2)"></span>
+                                <span class="dot" onclick="goToImage('gold', 3)"></span>
+                                <span class="dot" onclick="goToImage('gold', 4)"></span>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name gold-text">Gold Eclat</h3>
+                            <p class="product-description">Luxurious gold-accented ceramic mug with premium finish. Elevate your coffee with timeless elegance.</p>
+                            <div class="product-features">
+                            </div>
+                            <div class="product-price">
+                                <span class="price">Rs 2450</span>
+                            </div>
+                            <button class="add-to-cart-btn" onclick="addToCart('gold')">
+                                <span class="btn-text">Add to Cart</span>
+                                <span class="btn-arrow">→</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-image">
+                            <div class="image-carousel" id="silverCarousel">
+                                <img src="product_images/silver_eclat.PNG" alt="Silver Eclat Coffee Mug" class="carousel-image active" onclick="openImageViewer('silver', 0)">
+                                <img src="product_images/silver_cafe.PNG" alt="Silver Eclat in Cafe Setting" class="carousel-image" onclick="openImageViewer('silver', 1)">
+                                <img src="product_images/silver_house.PNG" alt="Silver Eclat in Home Setting" class="carousel-image" onclick="openImageViewer('silver', 2)">
+                                <img src="product_images/silver_workspace.PNG" alt="Silver Eclat in Workspace" class="carousel-image" onclick="openImageViewer('silver', 3)">
+                                <img src="product_images/silver_nature.PNG" alt="Silver Eclat in Nature Setting" class="carousel-image" onclick="openImageViewer('silver', 4)">
+                            </div>
+
+                            <button class="carousel-btn prev-btn" onclick="changeImage('silver', -1)">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="carousel-btn next-btn" onclick="changeImage('silver', 1)">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                            <div class="carousel-dots">
+                                <span class="dot active" onclick="goToImage('silver', 0)"></span>
+                                <span class="dot" onclick="goToImage('silver', 1)"></span>
+                                <span class="dot" onclick="goToImage('silver', 2)"></span>
+                                <span class="dot" onclick="goToImage('silver', 3)"></span>
+                                <span class="dot" onclick="goToImage('silver', 4)"></span>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name silver-text">Silver Eclat</h3>
+                            <p class="product-description">Sophisticated silver-accented ceramic mug with modern design. Perfect blend of style and functionality.</p>
+                            <div class="product-features">
+                            </div>
+                            <div class="product-price">
+                                <span class="price">Rs 2450</span>
+                            </div>
+                            <button class="add-to-cart-btn" onclick="addToCart('silver')">
+                                <span class="btn-text">Add to Cart</span>
+                                <span class="btn-arrow">→</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features-section">
+            <div class="container">
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <h3>Premium Quality</h3>
+                        <p>Handcrafted from the finest materials with attention to every detail</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shipping-fast"></i>
+                        </div>
+                        <h3>Free Shipping</h3>
+                        <p>Complimentary worldwide shipping on all orders</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>Lifetime Warranty</h3>
+                        <p>We stand behind the quality of our products</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about-section">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-text">
+                        <h2 class="section-title">Crafted with Passion</h2>
+                        <p>Every Èclat mug is carefully handcrafted by master artisans who understand that the perfect coffee experience begins with the vessel that holds it. Our mugs combine timeless elegance with modern functionality.</p>
+                        <p>Made from premium ceramic and finished with golden accents, each mug is designed to enhance your daily coffee ritual while adding a touch of luxury to your home.</p>
+                    </div>
+                    <div class="about-image">
+                        <img src="product_images/eclat_box.PNG" alt="Èclat Product Box" class="about-product-image">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact-section">
+            <div class="container">
+                <h2 class="section-title">Get in Touch</h2>
+                
+                <!-- Product Packaging Showcase -->
+                <div class="packaging-showcase">
+                    <h3 class="packaging-title">Our Premium Packaging</h3>
+                    <div class="packaging-grid">
+                        <div class="packaging-item">
+                            <img src="product_images/eclat_green_packaging.jpg" alt="Eclat Green Packaging" class="packaging-image">
+                            <p class="packaging-caption">Elegant Green Packaging</p>
+                        </div>
+                        <div class="packaging-item">
+                            <img src="product_images/eclat_black_packaging.jpg" alt="Eclat Black Packaging" class="packaging-image">
+                            <p class="packaging-caption">Sophisticated Black Packaging</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>hello@luxemug.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+1 (555) 123-4567</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>123 Luxury Lane, Premium City, PC 12345</span>
+                        </div>
+                    </div>
+                    <form class="contact-form" action="https://formspree.io/f/xayzqkqw" method="POST">
+                        <input type="text" name="name" placeholder="Your Name" required>
+                        <input type="email" name="email" placeholder="Your Email" required>
+                        <textarea name="message" placeholder="Your Message" rows="4" required></textarea>
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3>Shopping Cart</h3>
+                <button class="close-cart" onclick="closeCart()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <!-- Cart items will be populated here -->
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span id="cartTotal">$0.00</span>
+                </div>
+                <button class="checkout-btn">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Viewer Modal -->
+    <div class="image-viewer-modal" id="imageViewerModal">
+        <div class="image-viewer-content">
+            <div class="image-viewer-header">
+                <h3 id="viewerProductName">Product Gallery</h3>
+                <button class="close-viewer" onclick="closeImageViewer()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="main-image-container">
+                <button class="viewer-nav-btn prev-btn" onclick="changeViewerImage(-1)">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <img id="mainViewerImage" src="" alt="Product Image">
+                <button class="viewer-nav-btn next-btn" onclick="changeViewerImage(1)">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            <div class="thumbnail-container" id="thumbnailContainer">
+                <!-- Thumbnails will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>Èclat</h3>
+                    <p>Elevating your coffee experience, one sip at a time.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#product">Product</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Èclat. All rights reserved. | <a href="privacy-policy.html" style="color: var(--gold);">Privacy Policy</a> | <a href="terms-of-service.html" style="color: var(--gold);">Terms of Service</a> | <a href="shipping-returns.html" style="color: var(--gold);">Shipping & Returns</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    
+    <!-- Performance Optimization: Lazy Loading for Images -->
+    <script>
+        // Lazy loading for product images
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy');
+                        imageObserver.unobserve(img);
+                    }
+                });
+            });
+            
+            document.querySelectorAll('img[data-src]').forEach(img => {
+                imageObserver.observe(img);
+            });
+        }
+    </script>
+</body>
+</html>
