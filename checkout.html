@@ -375,15 +375,28 @@
         </div>
     </footer>
 
+    <!-- Razorpay SDK -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    
     <script>
         // Load checkout data from sessionStorage
         let checkoutData = null;
+        let razorpayKeyId = null;
         
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
             const storedData = sessionStorage.getItem('checkoutData');
             if (storedData) {
                 checkoutData = JSON.parse(storedData);
                 displayOrderSummary();
+                
+                // Load Razorpay key ID from server
+                try {
+                    const response = await fetch('/api/razorpay-key');
+                    const data = await response.json();
+                    razorpayKeyId = data.keyId;
+                } catch (error) {
+                    console.error('Failed to load Razorpay key:', error);
+                }
             } else {
                 // Redirect back to main page if no checkout data
                 window.location.href = 'index.html';
@@ -431,7 +444,7 @@
             });
         });
         
-        function placeOrder() {
+        async function placeOrder() {
             // Basic validation
             const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'address', 'city', 'postalCode', 'country'];
             let isValid = true;
@@ -458,7 +471,113 @@
                 return;
             }
             
-            // Simulate order processing
+            // If COD is selected, process without payment
+            if (selectedMethod.dataset.method === 'cod') {
+                processCODOrder();
+                return;
+            }
+            
+            // For online payments, create Razorpay order
+            try {
+                const placeOrderBtn = document.querySelector('.place-order-btn');
+                placeOrderBtn.textContent = 'Creating Payment...';
+                placeOrderBtn.disabled = true;
+                
+                // Create payment order on server
+                const response = await fetch('/api/create-payment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        amount: checkoutData.total,
+                        currency: 'INR',
+                        receipt: 'eclat_' + Date.now()
+                    })
+                });
+                
+                const paymentData = await response.json();
+                
+                if (paymentData.error) {
+                    throw new Error(paymentData.error);
+                }
+                
+                // Initialize Razorpay checkout
+                const options = {
+                    key: razorpayKeyId,
+                    amount: paymentData.amount,
+                    currency: paymentData.currency,
+                    name: 'Èclat Coffee',
+                    description: 'Premium Coffee Mugs',
+                    order_id: paymentData.orderId,
+                    handler: function(response) {
+                        // Payment successful, verify on server
+                        verifyPayment(response);
+                    },
+                    prefill: {
+                        name: document.getElementById('firstName').value + ' ' + document.getElementById('lastName').value,
+                        email: document.getElementById('email').value,
+                        contact: document.getElementById('phone').value
+                    },
+                    theme: {
+                        color: '#D4AF37'
+                    }
+                };
+                
+                const rzp = new Razorpay(options);
+                rzp.open();
+                
+            } catch (error) {
+                console.error('Error creating payment:', error);
+                alert('Failed to create payment. Please try again.');
+                const placeOrderBtn = document.querySelector('.place-order-btn');
+                placeOrderBtn.textContent = 'Place Order';
+                placeOrderBtn.disabled = false;
+            }
+        }
+        
+        async function verifyPayment(response) {
+            try {
+                const verificationResponse = await fetch('/api/verify-payment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        razorpay_order_id: response.razorpay_order_id,
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_signature: response.razorpay_signature
+                    })
+                });
+                
+                const verificationData = await verificationResponse.json();
+                
+                if (verificationData.success) {
+                    // Payment verified successfully
+                    processSuccessfulOrder();
+                } else {
+                    throw new Error(verificationData.error);
+                }
+                
+            } catch (error) {
+                console.error('Payment verification failed:', error);
+                alert('Payment verification failed. Please contact support.');
+                const placeOrderBtn = document.querySelector('.place-order-btn');
+                placeOrderBtn.textContent = 'Place Order';
+                placeOrderBtn.disabled = false;
+            }
+        }
+        
+        function processSuccessfulOrder() {
+            // Clear cart data
+            sessionStorage.removeItem('checkoutData');
+            
+            // Show success message and redirect
+            alert('Payment successful! Order placed successfully. Thank you for choosing Èclat.');
+            window.location.href = 'index.html';
+        }
+        
+        function processCODOrder() {
             const placeOrderBtn = document.querySelector('.place-order-btn');
             placeOrderBtn.textContent = 'Processing...';
             placeOrderBtn.disabled = true;
@@ -468,10 +587,11 @@
                 sessionStorage.removeItem('checkoutData');
                 
                 // Show success message and redirect
-                alert('Order placed successfully! Thank you for choosing Èclat.');
+                alert('Order placed successfully! You will pay on delivery. Thank you for choosing Èclat.');
                 window.location.href = 'index.html';
             }, 2000);
         }
     </script>
 </body>
 </html>
+
