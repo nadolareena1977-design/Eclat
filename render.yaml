@@ -9,3 +9,26 @@ services:
         value: production
     healthCheckPath: /
     autoDeploy: true
+    customDomains:
+      - name: èclat.com
+        forceHTTPS: true
+        ssl: true
+      - name: xn--clat-4oa.com
+        forceHTTPS: true
+        ssl: true
+        redirects:
+          - from: www.xn--clat-9na.com
+            to: èclat.com
+            type: 301
+          - from: xn--clat-9na.com
+            to: èclat.com
+            type: 301
+          - from: www.èclat.com
+            to: èclat.com
+            type: 301
+          - from: âclat.com
+            to: èclat.com
+            type: 301
+          - from: www.âclat.com
+            to: èclat.com
+            type: 301

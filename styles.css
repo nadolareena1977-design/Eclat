@@ -1042,8 +1042,9 @@ h1, h2, h3, h4 {
 
 .contact-info {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 2rem;
+    flex-wrap: wrap;
 }
 
 .contact-item {
@@ -1051,7 +1052,7 @@ h1, h2, h3, h4 {
     align-items: center;
     gap: 1rem;
     font-size: 1.1rem;
-    color: var(--white);
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .contact-item i {
@@ -1134,6 +1135,29 @@ h1, h2, h3, h4 {
     color: var(--black);
     transform: translateY(-2px);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Packaging Images */
+.packaging-images {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: flex-start;
+    margin: 1rem 0 0 0;
+    flex-wrap: nowrap;
+}
+
+.packaging-img {
+    width: 280px;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 15px;
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.packaging-img:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 20px 40px rgba(212, 175, 55, 0.4);
 }
 
 /* Cart Modal */
@@ -2180,6 +2204,19 @@ h1, h2, h3, h4 {
         font-size: 16px;
         -webkit-appearance: none;
         appearance: none;
+    }
+    
+    /* Mobile packaging images */
+    .packaging-images {
+        gap: 1rem;
+        margin: 1.5rem 0;
+        flex-wrap: nowrap;
+    }
+    
+    .packaging-img {
+        width: 200px;
+        height: 200px;
+        border-radius: 10px;
     }
     
     /* Mobile button improvements */

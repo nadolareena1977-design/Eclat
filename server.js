@@ -6,6 +6,35 @@ const razorpayConfig = require('./razorpay-config');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Force HTTPS in production
+if (process.env.NODE_ENV === 'production') {
+    app.use((req, res, next) => {
+        if (req.header('x-forwarded-proto') !== 'https') {
+            res.redirect(`https://${req.header('host')}${req.url}`);
+        } else {
+            next();
+        }
+    });
+}
+
+// Domain redirect middleware - must be first
+app.use((req, res, next) => {
+    const host = req.get('host');
+    
+    // Handle Punycode and incorrect domain redirects
+    // xn--clat-9na.com = âclat.com (incorrect domain)
+    // xn--clat-4oa.com = èclat.com (correct domain)
+    if (host === 'www.xn--clat-9na.com' || 
+        host === 'xn--clat-9na.com' || 
+        host === 'âclat.com' ||
+        host === 'www.âclat.com' ||
+        host === 'www.èclat.com') {
+        return res.redirect(301, `https://èclat.com${req.url}`);
+    }
+    
+    next();
+});
+
 // Middleware
 app.use(express.static(__dirname));
 app.use(express.json());

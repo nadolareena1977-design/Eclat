@@ -1,0 +1,15 @@
+RewriteEngine On
+
+# Redirect incorrect domains to èclat.com
+# xn--clat-9na.com = âclat.com (incorrect domain)
+# xn--clat-4oa.com = èclat.com (correct domain)
+RewriteCond %{HTTP_HOST} ^www\.xn--clat-9na\.com$ [OR]
+RewriteCond %{HTTP_HOST} ^xn--clat-9na\.com$ [OR]
+RewriteCond %{HTTP_HOST} ^âclat\.com$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.âclat\.com$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.èclat\.com$
+RewriteRule ^(.*)$ https://èclat.com/$1 [R=301,L]
+
+# Force HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]

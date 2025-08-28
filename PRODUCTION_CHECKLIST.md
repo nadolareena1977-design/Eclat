@@ -37,7 +37,7 @@
 - [ ] Purchase domain (e.g., eclat-coffee.com)
 - [ ] Set up hosting (Netlify, Vercel, or traditional hosting)
 - [ ] Configure SSL certificate (HTTPS)
-- [ ] Set up email hosting for hello@luxemug.com
+- [x] Set up email hosting for reach.eclat@gmail.com
 
 ### 2. **Google Analytics Configuration**
 - [ ] Replace `GA_MEASUREMENT_ID` with actual Google Analytics ID
