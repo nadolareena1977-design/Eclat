@@ -4,7 +4,7 @@ const InvoiceService = require('./invoice-service');
 
 class EmailService {
     constructor() {
-        this.transporter = nodemailer.createTransporter({
+        this.transporter = nodemailer.createTransport({
             service: emailConfig.service,
             host: emailConfig.host,
             port: emailConfig.port,
