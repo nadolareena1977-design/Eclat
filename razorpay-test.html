@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Razorpay Test - Èclat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .config-display {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Razorpay Integration Test</h1>
+        
+        <div class="config-display">
+            <strong>Current Configuration:</strong><br>
+            Environment: <span id="env">Loading...</span><br>
+            Key ID: <span id="keyId">Loading...</span><br>
+            Key Secret: <span id="keySecret">Hidden for security</span>
+        </div>
+
+        <h3>Test Options:</h3>
+        <button class="test-button" onclick="testConfig()">Test Configuration</button>
+        <button class="test-button" onclick="testPayment()">Test Payment (₹1)</button>
+        <button class="test-button" onclick="testOrder()">Test Order Creation</button>
+        
+        <div id="status"></div>
+        
+        <div id="payment-form" style="display: none;">
+            <h3>Payment Form</h3>
+            <div id="razorpay-button"></div>
+        </div>
+    </div>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        let currentConfig = null;
+
+        // Load configuration
+        async function loadConfig() {
+            try {
+                const response = await fetch('/api/config');
+                const config = await response.json();
+                currentConfig = config;
+                
+                document.getElementById('env').textContent = config.environment;
+                document.getElementById('keyId').textContent = config.keyId;
+                
+                showStatus('Configuration loaded successfully!', 'success');
+            } catch (error) {
+                showStatus('Error loading configuration: ' + error.message, 'error');
+            }
+        }
+
+        // Test configuration
+        function testConfig() {
+            if (currentConfig) {
+                showStatus(`✅ Configuration loaded! Environment: ${currentConfig.environment}, Key ID: ${currentConfig.keyId}`, 'success');
+            } else {
+                showStatus('❌ Configuration not loaded. Please load config first.', 'error');
+            }
+        }
+
+        // Test payment
+        function testPayment() {
+            if (!currentConfig) {
+                showStatus('❌ Please load configuration first', 'error');
+                return;
+            }
+
+            const options = {
+                key: currentConfig.keyId,
+                amount: 100, // ₹1 in paise
+                currency: "INR",
+                name: "Èclat Coffee",
+                description: "Test Payment",
+                image: "product_images/eclat_box.PNG",
+                handler: function (response) {
+                    showStatus(`✅ Payment successful! Payment ID: ${response.razorpay_payment_id}`, 'success');
+                },
+                prefill: {
+                    name: "Test User",
+                    email: "test@example.com",
+                    contact: "9999999999"
+                },
+                theme: {
+                    color: "#051a0f"
+                }
+            };
+
+            const rzp = new Razorpay(options);
+            rzp.open();
+        }
+
+        // Test order creation
+        async function testOrder() {
+            if (!currentConfig) {
+                showStatus('❌ Please load configuration first', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/create-order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        amount: 100,
+                        currency: 'INR',
+                        receipt: 'test_receipt_' + Date.now()
+                    })
+                });
+
+                const order = await response.json();
+                
+                if (order.id) {
+                    showStatus(`✅ Order created successfully! Order ID: ${order.id}`, 'success');
+                } else {
+                    showStatus('❌ Order creation failed: ' + JSON.stringify(order), 'error');
+                }
+            } catch (error) {
+                showStatus('❌ Error creating order: ' + error.message, 'error');
+            }
+        }
+
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+
+        // Load configuration when page loads
+        window.onload = loadConfig;
+    </script>
+</body>
+</html>

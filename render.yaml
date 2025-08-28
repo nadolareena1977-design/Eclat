@@ -7,6 +7,26 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      - key: PORT
+        value: 8000
+      - key: EMAIL_SERVICE
+        value: gmail
+      - key: EMAIL_HOST
+        value: smtp.gmail.com
+      - key: EMAIL_PORT
+        value: 587
+      - key: EMAIL_USER
+        value: eclat.reach@gmail.com
+      # EMAIL_PASS should be set in Render dashboard for security
+      # - key: EMAIL_PASS
+      #   value: your-app-password-here
+      - key: EMAIL_FROM
+        value: Èclat Coffee <eclat.reach@gmail.com>
+      # Razorpay keys should be set in Render dashboard for security
+      # - key: RAZORPAY_TEST_KEY_ID
+      # - key: RAZORPAY_TEST_KEY_SECRET  
+      # - key: RAZORPAY_PRODUCTION_KEY_ID
+      # - key: RAZORPAY_PRODUCTION_KEY_SECRET
     healthCheckPath: /
     autoDeploy: true
     customDomains:
